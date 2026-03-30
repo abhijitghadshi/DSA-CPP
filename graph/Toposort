@@ -1,0 +1,46 @@
+#include<iostream>
+#include<vector>
+#include<stack>
+using namespace std;
+
+int V=6;
+vector<vector<int>> adj(V);
+
+void addedges(int u,int v){
+    adj[u].push_back(v);
+}
+void DFS(int u, vector<bool>& visited, stack<int>& st){
+    visited[u] = true;
+    for(int v:adj[u]){
+        if(! visited[v]){
+            DFS(v,visited,st);
+        }
+    }
+    st.push(u);
+}
+void topo(){
+    stack<int>s;
+    vector<bool> visited(V, false);
+
+    for(int i=0;i<V;i++){
+        if( ! visited[i]){
+            DFS(i,visited,s);
+        }
+    }  
+     while(!s.empty()){
+        cout<<s.top()<<" ";
+        s.pop();
+        }
+}
+int main(){
+    addedges(5, 2);
+    addedges(5, 0);
+    addedges(4, 0);
+    addedges(4, 1);
+    addedges(2, 3);
+    addedges(3, 1);
+
+    topo();
+
+    return 0;
+}
